@@ -1,0 +1,16 @@
+<odoo>
+    <menuitem
+            id="petty_cash_management_root_menu"
+            name="Petty Cash Management"
+    />
+    <menuitem
+            id="petty_cash_request"
+            name="Petty Cash Request"
+            parent="petty_cash_management_root_menu"
+    />
+    <menuitem
+            id="petty_cash_reconciliation"
+            name="Petty Cash Reconciliation"
+            parent="petty_cash_management_root_menu"
+    />
+</odoo>

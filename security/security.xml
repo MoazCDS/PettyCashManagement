@@ -1,0 +1,56 @@
+<odoo>
+    <record id="petty_cash_category" model="ir.module.category">
+        <field name="name">Petty Cash Management</field>
+    </record>
+
+    <record id="petty_cash_employees_group" model="res.groups">
+        <field name="name">Employee</field>
+        <field name="category_id" ref="petty_cash_management.petty_cash_category"/>
+    </record>
+
+    <record id="petty_cash_Managers_group" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="petty_cash_management.petty_cash_category"/>
+        <field name="implied_ids" eval="[(4,ref('petty_cash_management.petty_cash_employees_group'))]"/>
+    </record>
+
+    <record id="petty_cash_Accountants_group" model="res.groups">
+        <field name="name">Accountant</field>
+        <field name="category_id" ref="petty_cash_management.petty_cash_category"/>
+        <field name="implied_ids" eval="[(4,ref('petty_cash_management.petty_cash_Managers_group'))]"/>
+    </record>
+
+
+    <record id="petty_cash_employee" model="ir.rule">
+        <field name="name">Petty Cash Employee: Own Requests Only</field>
+        <field name="model_id" ref="petty_cash_management.model_petty_cash_request"/>
+        <field name="groups" eval="[(4, ref('petty_cash_management.petty_cash_employees_group'))]"/>
+        <field name="domain_force">[('employee_id.user_id.id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="petty_cash_manager" model="ir.rule">
+        <field name="name">Petty Cash Manager: Own Department Request</field>
+        <field name="model_id" ref="petty_cash_management.model_petty_cash_request"/>
+        <field name="groups" eval="[(4, ref('petty_cash_management.petty_cash_Managers_group'))]"/>
+        <field name="domain_force">['|',
+            ('employee_id.user_id.id', '=', user.id), ('employee_id.parent_id.user_id.id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="petty_cash_accountant" model="ir.rule">
+        <field name="name">Petty Cash Accountant: Full Access</field>
+        <field name="model_id" ref="petty_cash_management.model_petty_cash_request"/>
+        <field name="groups" eval="[(4, ref('petty_cash_management.petty_cash_Accountants_group'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+</odoo>

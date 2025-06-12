@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="petty_cash_report" model="ir.actions.report">
+        <field name="name">Petty Cash Report</field>
+        <field name="model">petty.cash.request</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_petty_cash_request"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">petty_cash_management.petty_cash_request_record_template</field>
+    </record>
+
+    <template id="petty_cash_request_record_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div style="page-break-after: always;">
+                        <h1 style="font-family: BebasNeue-Regular; padding: 20px">Petty Cash Report</h1>
+
+                        <style>
+                            table {
+                            width: 100%;
+                            border: 1px solid #b3adad;
+                            border-collapse: collapse;
+                            text-align: center;
+                            padding: 5px;
+                            }
+                            table th{
+                            border: 1px solid #b3adad;
+                            padding: 5px;
+                            text-align: center;
+                            background: #f0f0f0;
+                            color: #313030;
+                            }
+                            table td {
+                            border: 1px solid #b3adad;
+                            text-align: center;
+                            padding: 5px;
+                            background: #ffffff;
+                            color: #313030;
+                            }
+                        </style>
+
+                        <p><strong>Employee:</strong> <t t-esc="o.employee_id.name"/></p>
+                        <p><strong>Date:</strong> <t t-esc="o.request_date"/></p>
+                        <p><strong>Amount:</strong> <t t-esc="o.amount_request"/></p>
+
+                        <br/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>State</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody padding="10px">
+                                    <tr>
+                                        <td><t t-esc="o.state"/></td>
+                                        <td><t t-esc="o.purpose"/></td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 100px">
+                            <tr>
+                                <td><strong>Employee Signature:</strong><br/><br/>________________________</td><br/><br/>
+                                <td><strong>Manager Signature:</strong><br/><br/>________________________</td><br/><br/>
+                                <td><strong>Accountant Signature:</strong><br/><br/>________________________</td><br/><br/>
+                            </tr>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

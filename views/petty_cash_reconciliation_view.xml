@@ -1,0 +1,56 @@
+<odoo>
+    <record id="petty_cash_reconciliation_view_tree" model="ir.ui.view">
+        <field name="name">petty cash reconciliation tree</field>
+        <field name="model">petty.cash.reconciliation</field>
+        <field name="arch" type="xml">
+        <tree multi_edit="1">
+            <field name="petty_request_id"/>
+            <field name="journal_entry_id"/>
+            <field name="vendor_bills_ids"/>
+            <field name="attachment_ids"/>
+            <field name="reconciled_amount"/>
+        </tree>
+        </field>
+    </record>
+
+
+    <record id="petty_cash_reconciliation_view_form" model="ir.ui.view">
+        <field name="name">petty cash reconciliation form</field>
+        <field name="model">petty.cash.reconciliation</field>
+        <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <div class="oe_title">
+                    <label for="petty_request_id"/>
+                        <h1>
+                            <field name="petty_request_id"/>
+                        </h1>
+                </div>
+
+                <group>
+                    <field name="journal_entry_id"/>
+                    <field name="vendor_bills_ids"/>
+                    <field name="attachment_ids"/>
+                    <field name="reconciled_amount"/>
+                </group>
+            </sheet>
+        </form>
+        </field>
+    </record>
+
+
+
+    <record id="petty_cash_reconciliation_action" model="ir.actions.act_window">
+        <field name="name">Petty Cash Reconciliation</field>
+        <field name="res_model">petty.cash.reconciliation</field>
+    </record>
+
+
+
+    <menuitem
+            id="petty_cash_reconciliation_menu_item"
+            name="Petty Cash Reconciliation"
+            parent="petty_cash_reconciliation"
+            action="petty_cash_reconciliation_action"
+    />
+</odoo>

@@ -1,0 +1,95 @@
+<odoo>
+    <record id="petty_cash_request_view_tree" model="ir.ui.view">
+        <field name="name">petty cash request tree</field>
+        <field name="model">petty.cash.request</field>
+        <field name="arch" type="xml">
+        <tree multi_edit="1">
+            <field name="employee_id"/>
+            <field name="request_date"/>
+            <field name="amount_request"/>
+            <field name="state"/>
+            <field name="purpose"/>
+        </tree>
+        </field>
+    </record>
+
+
+    <record id="petty_cash_request_view_form" model="ir.ui.view">
+        <field name="name">petty cash request form</field>
+        <field name="model">petty.cash.request</field>
+        <field name="arch" type="xml">
+        <form>
+            <header>
+                <button name="print_custom_pdf" string="Print PDF Report" type="object" class="btn-primary"/>
+                <button name="action_draft" string="Set To Draft" invisible="state == 'draft'" type="object"
+                class="btn-primary" groups="petty_cash_management.petty_cash_Managers_group"/>
+
+                <button name="action_submitted" string="Submit" invisible="state == 'submitted'" type="object"
+                class="btn-primary" groups="petty_cash_management.petty_cash_Accountants_group"/>
+
+                <button name="action_approved" string="Approve" invisible="state == 'approved'" type="object"
+                class="btn-primary" groups="petty_cash_management.petty_cash_Managers_group"/>
+
+                <button name="action_paid" string="Mark As Paid" invisible="state == 'paid'" type="object"
+                class="btn-primary" groups="petty_cash_management.petty_cash_Accountants_group"/>
+
+                <button name="action_reconciled" string="Reconcile" invisible="state == 'reconciled'" type="object"
+                class="btn-secondary" groups="petty_cash_management.petty_cash_Accountants_group"/>
+
+                <field name="state" widget="statusbar"/>
+            </header>
+            <sheet>
+
+                <widget name="web_ribbon" title="Reconciled" bg_color="text-bg-danger" invisible="state != 'reconciled'"/>
+                <widget name="web_ribbon" title="Paid" bg_color="text-bg-success" invisible="state != 'paid'"/>
+
+                <div class="oe_title">
+                    <label for="employee_id"/>
+                        <h1>
+                            <field name="employee_id" readonly="state != 'draft'"/>
+                        </h1>
+                </div>
+
+                <group>
+                    <field name="request_date" readonly="state != 'draft'"/>
+                    <field name="amount_request" readonly="state != 'draft'"/>
+                    <field name="remaining_amount" readonly="state != 'draft'"/>
+                    <field name="journal_id" readonly="state != 'draft'"/>
+                    <field name="purpose" readonly="state != 'draft'"/>
+                </group>
+            </sheet>
+        </form>
+        </field>
+    </record>
+
+
+    <record id="petty_cash_request_pivot_form" model="ir.ui.view" >
+        <field name="name">Petty Cash Request Report</field>
+        <field name="model">petty.cash.request</field>
+        <field name="arch" type="xml">
+            <pivot string="Petty Cash Request">
+                <field name="employee_id" type="col"/>
+                <field name="month" type="col"/>
+                <field name="state" type="row"/>
+                <field name="amount_request" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+
+
+    <record id="petty_cash_request_action" model="ir.actions.act_window">
+        <field name="name">Petty Cash Request</field>
+        <field name="res_model">petty.cash.request</field>
+        <field name="view_mode">tree,form,pivot</field>
+    </record>
+
+
+
+    <menuitem
+            id="petty_cash_request_menu_item"
+            name="Petty Cash Request"
+            parent="petty_cash_request"
+            action="petty_cash_request_action"
+    />
+</odoo>
