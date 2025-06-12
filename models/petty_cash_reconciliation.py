@@ -9,7 +9,7 @@ class PettyCashReconciliation(models.Model):
     reconciled_amount = fields.Float(compute="_compute_reconciled_amount", string="Reconciled Amount", readonly=True)
 
     vendor_bills_ids = fields.Many2many('account.move')
-    attachment_ids = fields.Many2many   ('ir.attachment')
+    attachment_ids = fields.Many2many('ir.attachment')
     petty_request_id = fields.Many2one('petty.cash.request', readonly=True)
     journal_entry_id = fields.Many2one('account.move', readonly=True)
 

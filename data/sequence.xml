@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="petty_cash_sequence" model="ir.sequence">
+            <field name="name">Petty Cash Sequence</field>
+            <field name="code">petty_cash_seq</field>
+            <field name="prefix">PCR</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</odoo>

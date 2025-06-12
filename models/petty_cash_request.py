@@ -1,5 +1,4 @@
 from odoo import models, fields, api
-from odoo.api import onchange
 from odoo.exceptions import ValidationError
 import datetime
 
@@ -8,6 +7,7 @@ class PettyCashRequest(models.Model):
     _description = "Petty Cash Request"
     _rec_name = "employee_id"
 
+    sequence = fields.Char(string="Name", default="New")
     request_date = fields.Date(string="Date")
     amount_request = fields.Float(string="Amount")
     purpose = fields.Text(string="Purpose")
@@ -18,7 +18,7 @@ class PettyCashRequest(models.Model):
         ('paid', 'Paid'),
         ('reconciled', 'Reconciled'),
     ], default='draft')
-    remaining_amount = fields.Float(compute="_compute_remaining_amount", string="Remaining amount", store=True)
+    remaining_amount = fields.Float(compute="_compute_remaining_amount", string="Remaining amount", readonly=True)
     month = fields.Integer(compute="_compute_month", string="Month", store=True)
 
     employee_id = fields.Many2one('hr.employee', required=True, string="Employee")
@@ -34,6 +34,8 @@ class PettyCashRequest(models.Model):
         res = super(PettyCashRequest, self).create(vals)
         if res.amount_request == 0:
             raise ValidationError("The Amount Can't Be 0")
+        if res.sequence == 'New':
+            res.sequence = self.env['ir.sequence'].next_by_code('petty_cash_seq')
         return res
 
     def action_draft(self):
@@ -56,22 +58,22 @@ class PettyCashRequest(models.Model):
                 'ref': f"Petty Cash for {rec.employee_id.name}",
                 'line_ids': [
                     (0, 0, {
-                        'account_id': self.journal_id.default_account_id.id,
-                        'debit': self.amount_request,
+                        'account_id': rec.journal_id.default_account_id.id,
+                        'debit': rec.amount_request,
                         'credit': 0.0,
                         'name': 'Petty Cash Allocation',
                     }),
                     (0, 0, {
-                        'account_id': self.journal_id.default_account_id.id,
+                        'account_id': rec.journal_id.default_account_id.id,
                         'debit': 0.0,
-                        'credit': self.amount_request,
+                        'credit': rec.amount_request,
                         'name': 'Cash Payment',
                     }),
                 ],
             })
             reconciliation = self.env['petty.cash.reconciliation'].create({
                 'petty_request_id': rec.id,
-                'journal_entry_id': rec.journal_id.id,
+                'journal_entry_id': move.id,
             })
             move.state = 'posted'
             rec.state = 'paid'

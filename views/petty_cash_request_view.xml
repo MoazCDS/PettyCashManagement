@@ -24,7 +24,7 @@
                 <button name="action_draft" string="Set To Draft" invisible="state == 'draft'" type="object"
                 class="btn-primary" groups="petty_cash_management.petty_cash_Managers_group"/>
 
-                <button name="action_submitted" string="Submit" invisible="state == 'submitted'" type="object"
+                <button name="action_submitted" string="Submit" invisible="state != 'draft'" type="object"
                 class="btn-primary" groups="petty_cash_management.petty_cash_Accountants_group"/>
 
                 <button name="action_approved" string="Approve" invisible="state == 'approved'" type="object"
@@ -44,16 +44,17 @@
                 <widget name="web_ribbon" title="Paid" bg_color="text-bg-success" invisible="state != 'paid'"/>
 
                 <div class="oe_title">
-                    <label for="employee_id"/>
+                    <label for="sequence"/>
                         <h1>
-                            <field name="employee_id" readonly="state != 'draft'"/>
+                            <field name="sequence" readonly="1"/>
                         </h1>
                 </div>
 
                 <group>
+                    <field name="employee_id" readonly="state != 'draft'"/>
                     <field name="request_date" readonly="state != 'draft'"/>
                     <field name="amount_request" readonly="state != 'draft'"/>
-                    <field name="remaining_amount" readonly="state != 'draft'"/>
+                    <field name="remaining_amount"/>
                     <field name="journal_id" readonly="state != 'draft'"/>
                     <field name="purpose" readonly="state != 'draft'"/>
                 </group>

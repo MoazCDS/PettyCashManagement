@@ -60,11 +60,9 @@
                             </tbody>
                         </table>
                         <div style="margin-top: 100px">
-                            <tr>
-                                <td><strong>Employee Signature:</strong><br/><br/>________________________</td><br/><br/>
-                                <td><strong>Manager Signature:</strong><br/><br/>________________________</td><br/><br/>
-                                <td><strong>Accountant Signature:</strong><br/><br/>________________________</td><br/><br/>
-                            </tr>
+                                <div style="margin-top: 30px"><strong>Employee Signature:</strong><br/><br/>________________________</div>
+                                <div style="margin-top: 30px"><strong>Manager Signature:</strong><br/><br/>________________________</div>
+                                <div style="margin-top: 30px"><strong>Accountant Signature:</strong><br/><br/>________________________</div>
                         </div>
                     </div>
                 </t>
