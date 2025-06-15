@@ -27,10 +27,10 @@
                 <button name="action_submitted" string="Submit" invisible="state != 'draft'" type="object"
                 class="btn-primary" groups="petty_cash_management.petty_cash_Accountants_group"/>
 
-                <button name="action_approved" string="Approve" invisible="state == 'approved'" type="object"
+                <button name="action_approved" string="Approve" invisible="state != 'submitted'" type="object"
                 class="btn-primary" groups="petty_cash_management.petty_cash_Managers_group"/>
 
-                <button name="action_paid" string="Mark As Paid" invisible="state == 'paid'" type="object"
+                <button name="action_paid" string="Mark As Paid" invisible="state != 'approvedzoo'" type="object"
                 class="btn-primary" groups="petty_cash_management.petty_cash_Accountants_group"/>
 
                 <button name="action_reconciled" string="Reconcile" invisible="state == 'reconciled'" type="object"

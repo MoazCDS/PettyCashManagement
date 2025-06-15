@@ -44,10 +44,35 @@
         <field name="perm_unlink" eval="False"/>
     </record>
 
+    <record id="petty_cash_manager_employees" model="ir.rule">
+        <field name="name">Petty Cash Manager: Only Employees He Manages</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="groups" eval="[(4, ref('petty_cash_management.petty_cash_employees_group'),
+        ref('petty_cash_management.petty_cash_Managers_group'))]"/>
+        <field name="domain_force">['|',
+                ('user_id.id', '=', user.id),
+                ('parent_id.user_id.id', '=', user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
     <record id="petty_cash_accountant" model="ir.rule">
         <field name="name">Petty Cash Accountant: Full Access</field>
         <field name="model_id" ref="petty_cash_management.model_petty_cash_request"/>
         <field name="groups" eval="[(4, ref('petty_cash_management.petty_cash_Accountants_group'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="petty_cash_accountant_employees" model="ir.rule">
+        <field name="name">Petty Cash Accountant: All Employees</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="groups" eval="[(4, ref('petty_cash_management.petty_cash_Accountants_group'))]"/>
+        <field name="domain_force">[]</field>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="True"/>
         <field name="perm_create" eval="True"/>

@@ -12,5 +12,6 @@
             id="petty_cash_reconciliation"
             name="Petty Cash Reconciliation"
             parent="petty_cash_management_root_menu"
+            groups="petty_cash_Accountants_group"
     />
 </odoo>
